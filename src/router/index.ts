@@ -9,6 +9,11 @@ const router = createRouter({
       component: () => import('@/modules/auth/components/LoginForm.vue'),
       meta: { requiresAuth: false }
     },
+    {
+      path: '/register',
+      component: () => import('@/modules/auth/components/RegisterForm.vue'),
+      meta: { requiresAuth: false }
+    },
     // {
     //   path: '/dashboard',
     //   component: () => import('@/views/Dashboard.vue'),

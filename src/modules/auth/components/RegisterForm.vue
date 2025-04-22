@@ -23,7 +23,7 @@ const handleSubmit = async () => {
     error.value = null;
     
     await authStore.register(form.value);
-    router.push('/dashboard'); // Redirigir tras registro exitoso
+    router.push('/store'); // Redirigir tras registro exitoso
     
   } catch (err: any) {
     error.value = err.response?.data?.message || 'Error en el registro';
