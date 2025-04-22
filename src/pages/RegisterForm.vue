@@ -22,7 +22,7 @@ const handleSubmit = async () => {
     loading.value = true;
     error.value = null;
     await authStore.register(form.value);
-    router.push('/store');
+    router.push('/');
   } catch (err: any) {
     error.value = err.response?.data?.message || 'Error en el registro';
   } finally {

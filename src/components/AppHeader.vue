@@ -20,7 +20,7 @@ const handleLogout = async () => {
 
 <template>
   <v-app-bar app color="primary" dark>
-    <v-toolbar-title>Mi Tienda</v-toolbar-title>
+    <v-btn to="/" >Mi Tienda</v-btn>
     
     <v-spacer></v-spacer>
     
@@ -29,11 +29,11 @@ const handleLogout = async () => {
     <template v-if="authStore.isAuthenticated">
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn text v-bind="attrs" v-on="on">
+          <!-- <v-btn text v-bind="attrs" v-on="on">
             <v-icon left>mdi-account</v-icon>
             {{ authStore?.name || 'Mi cuenta' }}
-          </v-btn>
-          <v-btn to="/product" text>
+          </v-btn> -->
+          <v-btn to="/products" text>
         Producto
       </v-btn>
       <v-btn @click="handleLogout"  text>
@@ -46,14 +46,19 @@ const handleLogout = async () => {
     </template>
     
     <template v-if="!authStore.isAuthenticated">
+      <v-btn to="/" text>
+        Inicio
+      </v-btn>
+      <v-btn to="/product" text>
+        Producto
+      </v-btn>
+    
       <v-btn to="/login" text>
         <v-icon left>mdi-login</v-icon>
         Iniciar sesión
       </v-btn>
-      <v-btn to="/register" text>
-        <v-icon left>mdi-account-plus</v-icon>
-        Registrarse
-      </v-btn>
+   
+
     </template>
   </v-app-bar>
 </template>

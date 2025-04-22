@@ -20,7 +20,7 @@ const handleSubmit = async () => {
     loading.value = true;
     error.value = null;
     await authStore.login(form.value);
-    router.push('/store');
+    router.push('/');
   } catch (err: any) {
     error.value = err.response?.data?.message || 'Error al iniciar sesión';
   } finally {

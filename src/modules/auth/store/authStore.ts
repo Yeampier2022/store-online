@@ -55,11 +55,9 @@ export const useAuthStore = defineStore("auth", {
     },
 
     async logout() {
-      // Limpiar estado
       this.user = null;
       this.token = null;
 
-      // Limpiar localStorage
       localStorage.removeItem("token");
       localStorage.removeItem("user");
     },

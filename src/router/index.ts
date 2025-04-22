@@ -10,11 +10,12 @@ const router = createRouter({
       path: "/",
       component: MainLayout,
       children: [
-        // {
-        //   path: '',
-        //   name: 'Home',
-        //   component: () => import('@/views/HomeView.vue')
-        // },
+        {
+          path: "",
+          name: "Home",
+          component: () => import("@/pages/Home.vue"),
+          
+        },
         {
           path: "/login",
           name: "Login",
@@ -25,13 +26,13 @@ const router = createRouter({
           path: "/register",
           name: "Registrar",
           component: () => import("@/pages/RegisterForm.vue"),
-          meta: { hideLayout: true }, 
+          meta: { hideLayout: true },
         },
         {
-          path: "/store",
-          name: "Tienda",
-          component: () => import("@/pages/Store.vue"),
-          meta: { hideLayout: true }, 
+          path: "/products",
+          name: "Productos",
+          component: () => import("@/pages/Product.vue"),
+          meta: { hideLayout: true },
         },
         // Otras rutas...
       ],
