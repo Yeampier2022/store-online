@@ -1,34 +1,51 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import { useAuthStore } from '@/modules/auth/store/authStore';
+import { createRouter, createWebHistory } from "vue-router";
+import { useAuthStore } from "@/modules/auth/store/authStore";
+import MainLayout from "@/layouts/MainLayout.vue";
 
 const router = createRouter({
   history: createWebHistory(),
+
   routes: [
     {
-      path: '/login',
-      component: () => import('@/modules/auth/components/LoginForm.vue'),
-      meta: { requiresAuth: false }
+      path: "/",
+      component: MainLayout,
+      children: [
+        // {
+        //   path: '',
+        //   name: 'Home',
+        //   component: () => import('@/views/HomeView.vue')
+        // },
+        {
+          path: "/login",
+          name: "Login",
+          component: () => import("@/pages/LoginForm.vue"),
+          meta: { hideLayout: true },
+        },
+        {
+          path: "/register",
+          name: "Registrar",
+          component: () => import("@/pages/RegisterForm.vue"),
+          meta: { hideLayout: true }, 
+        },
+        {
+          path: "/store",
+          name: "Tienda",
+          component: () => import("@/pages/Store.vue"),
+          meta: { hideLayout: true }, 
+        },
+        // Otras rutas...
+      ],
     },
-    {
-      path: '/register',
-      component: () => import('@/modules/auth/components/RegisterForm.vue'),
-      meta: { requiresAuth: false }
-    },
-    // {
-    //   path: '/dashboard',
-    //   component: () => import('@/views/Dashboard.vue'),
-    //   meta: { requiresAuth: true }
-    // }
-  ]
+  ],
 });
 
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore();
-  
+
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    next('/login');
-  } else if (to.path === '/login' && authStore.isAuthenticated) {
-    next('/dashboard');
+    next("/login");
+  } else if (to.path === "/login" && authStore.isAuthenticated) {
+    next("/dashboard");
   } else {
     next();
   }

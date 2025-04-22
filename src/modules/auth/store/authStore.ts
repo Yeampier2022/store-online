@@ -11,7 +11,7 @@ interface AuthState {
 export const useAuthStore = defineStore("auth", {
   state: (): AuthState => ({
     token: localStorage.getItem("token") || null,
-    user:safeParse(localStorage.getItem('user')),
+    user: safeParse(localStorage.getItem("user")),
   }),
 
   getters: {
@@ -55,8 +55,13 @@ export const useAuthStore = defineStore("auth", {
     },
 
     async logout() {
-      await authService.logout();
-      this.clearAuth();
+      // Limpiar estado
+      this.user = null;
+      this.token = null;
+
+      // Limpiar localStorage
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
     },
 
     clearAuth() {
