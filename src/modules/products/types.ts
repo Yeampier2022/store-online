@@ -1,4 +1,4 @@
-export interface products {
+export interface Products {
   name: string;
   description?: string;
   sku?: string;
@@ -10,7 +10,7 @@ export interface products {
   price: string;
   make_offer: number;
 }
-export interface categories {
+export interface Categories {
   name: string;
   description?: string;
   status?: string;
@@ -27,8 +27,6 @@ export interface ProductFilters {
 }
 
 export interface Pagination {
-  current_page: number;
   total_pages: number;
   per_page: number;
-  total_items: number;
 }

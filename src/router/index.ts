@@ -10,12 +10,12 @@ const router = createRouter({
       path: "/",
       component: MainLayout,
       children: [
-        {
-          path: "",
-          name: "Home",
-          component: () => import("@/pages/Home.vue"),
+        // {
+        //   path: "",
+        //   name: "Home",
+        //   component: () => import("@/pages/Home.vue"),
           
-        },
+        // },
         {
           path: "/login",
           name: "Login",
@@ -31,7 +31,7 @@ const router = createRouter({
         {
           path: "/products",
           name: "Productos",
-          component: () => import("@/pages/Product.vue"),
+          component: () => import('@/modules/products/components/ProductList.vue'),
           meta: { hideLayout: true },
         },
         // Otras rutas...

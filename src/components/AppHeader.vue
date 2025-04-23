@@ -49,7 +49,7 @@ const handleLogout = async () => {
       <v-btn to="/" text>
         Inicio
       </v-btn>
-      <v-btn to="/product" text>
+      <v-btn to="/products" text>
         Producto
       </v-btn>
     
