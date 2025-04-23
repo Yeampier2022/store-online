@@ -10,12 +10,12 @@ const router = createRouter({
       path: "/",
       component: MainLayout,
       children: [
-        // {
-        //   path: "",
-        //   name: "Home",
-        //   component: () => import("@/pages/Home.vue"),
+        {
+          path: "",
+          name: "Home",
+          component: () => import("@/pages/Home.vue"),
           
-        // },
+        },
         {
           path: "/login",
           name: "Login",
@@ -27,6 +27,11 @@ const router = createRouter({
           name: "Registrar",
           component: () => import("@/pages/RegisterForm.vue"),
           meta: { hideLayout: true },
+        },
+        {
+          path: '/categories',
+          name: 'Categories',
+          component: () => import('@/modules/products/components/CategoriesList.vue')
         },
         {
           path: "/products",

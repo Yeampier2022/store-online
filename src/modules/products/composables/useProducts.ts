@@ -1,6 +1,6 @@
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted } from "vue";
 import { fetchProducts } from "../services/productsApi";
-import type { Products, Pagination } from "../types";
+import type { Products } from "../types";
 
 export const useInfiniteProducts = () => {
   const products = ref<Products[]>([]);
@@ -8,12 +8,12 @@ export const useInfiniteProducts = () => {
   const error = ref<string | null>(null);
   const pagination = ref({
     page: 1,
-    per_page: 12,
-    hasMore: true,
+    per_page: 10,
+    last_page: 1, // Nuevo: almacenamos la última página
   });
 
-  const loadProducts = async () => {
-    if (loading.value || !pagination.value.hasMore) return;
+  const loadProducts = async (initialLoad = false) => {
+    if (loading.value || pagination.value.page > pagination.value.last_page) return;
 
     loading.value = true;
     try {
@@ -21,11 +21,20 @@ export const useInfiniteProducts = () => {
         page: pagination.value.page,
         per_page: pagination.value.per_page,
       });
-      console.log(data);
 
-      products.value = [...products.value, ...data];
-      pagination.value.hasMore = meta.current_page < meta.last_page;
-      if (pagination.value.hasMore) pagination.value.page++;
+      if (initialLoad) {
+        products.value = data;
+      } else {
+        products.value = [...products.value, ...data];
+      }
+
+      // Actualizamos la paginación con la respuesta de la API
+      pagination.value.last_page = meta.last_page;
+      
+      // Solo incrementamos la página si no hemos llegado al final
+      if (pagination.value.page < pagination.value.last_page) {
+        pagination.value.page++;
+      }
     } catch (err: any) {
       error.value = err.message || "Error loading products";
     } finally {
@@ -33,22 +42,16 @@ export const useInfiniteProducts = () => {
     }
   };
 
-  // Detectar scroll cerca del final
-  const handleScroll = () => {
-    const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-    if (scrollTop + clientHeight >= scrollHeight - 200) {
-      loadProducts();
-    }
-  };
-
+  // Carga inicial
   onMounted(() => {
-    loadProducts();
-    window.addEventListener("scroll", handleScroll);
+    loadProducts(true);
   });
 
-  onUnmounted(() => {
-    window.removeEventListener("scroll", handleScroll);
-  });
-
-  return { products, loading, error, loadProducts };
+  return {
+    products,
+    loading,
+    error,
+    pagination,
+    loadProducts,
+  };
 };

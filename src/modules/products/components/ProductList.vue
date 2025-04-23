@@ -3,7 +3,13 @@ import { useInfiniteProducts } from '../composables/useProducts';
 import ProductCard from './ProductCard.vue';
 import ProductSkeleton from './ProductSkeleton.vue';
 
-const { products, loading, error, loadProducts } = useInfiniteProducts();
+const { 
+  products, 
+  loading, 
+  error, 
+  pagination,
+  loadProducts 
+} = useInfiniteProducts();
 </script>
 
 <template>
@@ -17,7 +23,7 @@ const { products, loading, error, loadProducts } = useInfiniteProducts();
         <v-col
           v-for="product in products"
           :key="product.uuid"
-          cols="12"
+          cols="8"
           sm="6"
           md="4"
           lg="3"
@@ -27,35 +33,21 @@ const { products, loading, error, loadProducts } = useInfiniteProducts();
       </template>
 
       <ProductSkeleton v-if="loading && !products.length" />
-
-      <template v-if="loading && products.length">
-        <v-col
-          v-for="n in 4"
-          :key="`loading-${n}`"
-          cols="12"
-          sm="6"
-          md="4"
-          lg="3"
-        >
-          <v-card>
-            <v-skeleton-loader type="image" height="200px" />
-            <v-card-text>
-              <v-skeleton-loader type="heading" width="80%" />
-              <v-skeleton-loader type="text" width="60%" class="mt-2" />
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </template>
     </v-row>
 
-    <div v-if="!loading && products.length" class="text-center py-4">
+    <div class="text-center py-6">
       <v-btn
-        v-if="!loading"
+        v-if="pagination.page <= pagination.last_page"
         color="primary"
-        @click="loadProducts"
+        :loading="loading"
+        :disabled="loading"
+        @click="loadProducts()"
       >
         Cargar más productos
       </v-btn>
+      <p v-else-if="products.length" class="text-grey">
+        Has llegado al final de los productos
+      </p>
     </div>
   </div>
 </template>

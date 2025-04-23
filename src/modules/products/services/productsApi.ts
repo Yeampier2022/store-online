@@ -1,5 +1,5 @@
 import http from '@/api/http';
-import type { Products } from '../types';
+import type { Category, Products } from '../types';
 
 export const fetchProducts = async ({
   page = 1,
@@ -21,4 +21,16 @@ export const fetchProducts = async ({
       total: response.data.total
     }
   };
+
+  
+};
+
+export const fetchCategories = async (page = 1, per_page = 12): Promise<Category[]> => {
+  const response = await http.get('/shop/categories', {
+    params: {
+      page,
+      per_page
+    }
+  });
+  return response.data.data; // Extraemos el array de categorías
 };
