@@ -68,10 +68,7 @@ export const useInfiniteProducts = () => {
       products.value = [];
       pagination.value.page = 1;
       pagination.value.last_page = 1;
-      console.log(
-        "Resetting products and pagination, fetching page 1 with filters:",
-        filters.value
-      );
+    
     } else {
       console.log(
         "Fetching next page:",
@@ -101,19 +98,15 @@ export const useInfiniteProducts = () => {
         availableCategories.value = response?.filters.categories;
         availableBrands.value = response?.filters.brands;
         availableColors.value = response?.filters.colors;
-        console.log("Extracted available filters from API response.");
       }
 
       if (reset) {
         products.value = data;
-        console.log("Products replaced (reset).");
       } else {
         products.value = [...products.value, ...data];
-        console.log("Products appended.");
       }
 
       pagination.value.last_page = meta.last_page;
-      console.log("Pagination updated:", pagination.value);
 
       if (!reset && pagination.value.page < pagination.value.last_page) {
         pagination.value.page++;
@@ -129,12 +122,10 @@ export const useInfiniteProducts = () => {
       initialLoadComplete.value = true;
     } finally {
       loading.value = false;
-      console.log("Loading finished.");
     }
   };
 
   const applyCurrentFilters = () => {
-    console.log("Applying current filters:", filters.value);
     loadProducts(true);
   };
 

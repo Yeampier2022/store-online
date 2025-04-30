@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, onUnmounted } from 'vue';
 import { useInfiniteProducts } from '../composables/useProducts';
-
 import ProductCard from './ProductCard.vue';
 import ProductSkeleton from './ProductSkeleton.vue';
 
@@ -26,51 +25,35 @@ const localBrandUuid = ref(filters.value.brand_uuid || '');
 const localColorUuid = ref(filters.value.color_uuid || '');
 
 
-
-watch(localSearchTerm, (newValue) => {
-  updateSearchTerm(newValue);
-});
-
+watch(localSearchTerm, (newValue) => { updateSearchTerm(newValue); });
 watch([localCategoryUuid, localBrandUuid, localColorUuid], ([newCategory, newBrand, newColor]) => {
     filters.value.category_uuid = newCategory;
     filters.value.brand_uuid = newBrand;
     filters.value.color_uuid = newColor;
-
     applyCurrentFilters();
 });
 
 
-
 const handleScroll = () => {
-  if (!initialLoadComplete.value) {
-      return;
-  }
-
-  const nearEndOfPage = window.innerHeight + window.scrollY >= document.body.offsetHeight - 500;
-
+  if (!initialLoadComplete.value) return;
+  const nearEndOfPage = window.innerHeight + window.scrollY >= document.body.offsetHeight - 500; // Ajusta buffer
   if (nearEndOfPage && !loading.value) {
      console.log("Near end of page, attempting to load next page...");
      loadNextPage();
   }
 };
+onMounted(() => { window.addEventListener('scroll', handleScroll); });
+onUnmounted(() => { window.removeEventListener('scroll', handleScroll); });
 
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
-});
 
 </script>
 
 <template>
-  <div>
-    <v-alert v-if="error" type="error" class="mb-4">
+  <div class="pa-4"> <v-alert v-if="error" type="error" class="mb-4">
       {{ error }}
     </v-alert>
 
-    <v-row class="my-6">
+    <v-row class="mb-6">
       <v-col cols="12" md="3">
         <v-text-field
           label="Buscar por nombre"
@@ -84,7 +67,8 @@ onUnmounted(() => {
         <v-select
           label="Categoría"
           v-model="localCategoryUuid"
-          :items="availableCategories" item-title="name"
+          :items="availableCategories"
+          item-title="name"
           item-value="uuid"
           density="compact"
           hide-details
@@ -95,7 +79,8 @@ onUnmounted(() => {
         <v-select
           label="Marca"
           v-model="localBrandUuid"
-          :items="availableBrands" item-title="name"
+          :items="availableBrands"
+          item-title="name"
           item-value="uuid"
           density="compact"
           hide-details
@@ -106,7 +91,8 @@ onUnmounted(() => {
         <v-select
           label="Color"
           v-model="localColorUuid"
-          :items="availableColors" item-title="name"
+          :items="availableColors"
+          item-title="name"
           item-value="uuid"
           density="compact"
           hide-details
@@ -128,11 +114,7 @@ onUnmounted(() => {
           <v-col
             v-for="product in products"
             :key="product?.uuid"
-            cols="8"
-            sm="6"
-            md="4"
-            lg="3"
-          >
+            cols="12" sm="6" md="4" lg="3" >
             <ProductCard :product="product" />
           </v-col>
        </template>
@@ -151,5 +133,5 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-/* Estilos si es necesario */
+
 </style>

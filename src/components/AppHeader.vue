@@ -5,7 +5,6 @@ import { useRouter } from 'vue-router'
 const authStore = useAuthStore()
 const router = useRouter()
 
-console.log("Encontrando la data", authStore.userData)
 
 const handleLogout = async () => {
   try {
