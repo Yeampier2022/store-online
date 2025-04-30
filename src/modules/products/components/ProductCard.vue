@@ -2,7 +2,7 @@
 import type { Products } from '../types';
 
 defineProps<{
-    product: Product;
+    product: Products;
 }>();
 </script>
 

@@ -3,12 +3,28 @@ export interface Products {
   description?: string;
   sku?: string;
   width?: string;
+  image?: string;
+  uuid?:string;
   height?: string;
   weight?: string;
   lenght?: string;
   depth?: string;
   price: string;
   make_offer: number;
+}
+export interface Brand {
+  uuid: string;
+  name: string;
+}
+
+export interface Color {
+  uuid: string;
+  name: string;
+}
+export interface ProductFiltersData {
+  categories: Category[];
+  brands: Brand[];
+  colors: Color[];
 }
 export interface Category {
   id: number;
@@ -28,6 +44,13 @@ export interface ProductFilters {
   color_uuid?: string;
   per_page?: number;
   page?: number;
+}
+export interface FetchProductsApiResponse extends ApiResponseMeta {
+  data: Products[];
+}
+
+export interface FetchCategoriesApiResponse extends ApiResponseMeta {
+  data: Category[];
 }
 
 export interface Pagination {
@@ -58,8 +81,9 @@ export interface PaginationLinks {
   next: string | null;
 }
 
-export interface PaginationState {
+export interface ApiResponseMeta {
   current_page: number;
   last_page: number;
-  links: PaginationLinks;
+  per_page: number;
+  total: number;
 }
